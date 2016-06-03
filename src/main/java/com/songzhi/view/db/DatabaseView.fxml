@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.songzhi.view.db.DatabaseController">
+   <children>
+      <Label text="数据库连接">
+         <VBox.margin>
+            <Insets left="10.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <TableView fx:id="databaseData" prefWidth="580.0">
+        <columns>
+          <TableColumn fx:id="dbNameColumn" prefWidth="75.0" text="数据库名" />
+          <TableColumn fx:id="dbUrlColumn" prefWidth="176.0" text="数据库地址" />
+            <TableColumn fx:id="avaiableFlagColumn" prefWidth="75.0" text="是否可用" />
+            <TableColumn fx:id="defaultFlagColumn" prefWidth="75.0" text="默认连接" />
+        </columns>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="200.0">
+         <children>
+            <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#addHandler" prefHeight="23.0" prefWidth="70.0" text="新增">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#editHandler" prefHeight="23.0" prefWidth="70.0" text="修改">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#deleteHandler" prefHeight="23.0" prefWidth="70.0" text="删除">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

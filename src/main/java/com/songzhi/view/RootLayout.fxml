@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.songzhi.view.RootLayoutController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="工具">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#handlerShowDatabase" text="数据库连接" />
+                  <MenuItem mnemonicParsing="false" onAction="#showTableRule" text="业务模型" />
+                  <MenuItem mnemonicParsing="false" onAction="#handlerDataGenerator" text="业务数据" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="字典">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showDict" text="文件字典" />
+              <MenuItem mnemonicParsing="false" text="集合字典" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="规则" />
+          <Menu mnemonicParsing="false" text="帮助">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

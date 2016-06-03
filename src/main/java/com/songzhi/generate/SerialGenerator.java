@@ -1,0 +1,58 @@
+package com.songzhi.generate;
+
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import com.songzhi.model.TableModel;
+import com.songzhi.utils.db.DBHelper;
+
+/**
+ * 序号生成器
+ */
+public class SerialGenerator extends DataGeneratorAdapter  {
+	private static Logger log = Logger.getLogger(SerialGenerator.class);
+	
+	/**PID前缀 日期的yyyyMMdd格式*/
+	private String prefix = new SimpleDateFormat("yyyyMMdd").format(new Date());	
+	
+	private int size = 8;	//序号长度 默认长度8
+
+	@Override
+	public String generator(TableModel tableModel) {
+		try {
+			String key = prefix;
+			String index = String.valueOf(DBHelper.get("select PID_SEQUENCE.nextval from dual "));
+			return key + StringUtils.leftPad(index, 8, '0');
+		} catch (SQLException e) {
+			log.equals("PID 生成失败" + e.getMessage());
+		}
+		return null;
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+	
+	public static void main(String[] args) {
+		SerialGenerator gen = new SerialGenerator();
+		gen.initialize(null);
+//		System.out.println(gen.generator());
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+	
+}

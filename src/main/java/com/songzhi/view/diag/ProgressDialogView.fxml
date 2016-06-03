@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.songzhi.view.diag.ProgressDialogController">
+   <children>
+      <ProgressBar fx:id="progressBar" layoutX="41.0" layoutY="14.0" prefHeight="30.0" prefWidth="400.0" progress="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="14.0" />
+      <ProgressIndicator fx:id="progressIndicator" layoutX="482.0" layoutY="11.0" prefHeight="46.0" prefWidth="36.0" progress="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="11.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ProgressIndicator>
+   </children>
+</AnchorPane>
