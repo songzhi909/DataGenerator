@@ -51,6 +51,8 @@ public class DataModelGenerator {
 		props.load(new InputStreamReader(in, "utf-8"));
 		log.info("加载业务字典完成！");
 		
+		File tempDirFile = new File("tempDir/xml");
+		if(!tempDirFile.exists()) tempDirFile.mkdirs();
 
 		log.info("开始生成业务规则文件 ...");
 		for(Object key : props.keySet()) {

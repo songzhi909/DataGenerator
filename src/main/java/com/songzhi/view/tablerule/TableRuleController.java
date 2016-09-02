@@ -35,13 +35,20 @@ public class TableRuleController {
 	
 	public void setContainer(MainApp mainApp) {
 		this.mainApp = mainApp;
-		
 
+		showRule();
+	}
+
+	/**显示规格 */
+	private void showRule() {
 		Container container = mainApp.getContainer();
 		
-		tableData.setItems(container.getTableNameAndDescs());
+		if(container.tableNames != null && container.tableNames.size()>0) {
 		
-		selectTableRuleModel(container.tableNames.get(0)); //默认显示第一条数据
+			tableData.setItems(container.getTableNameAndDescs());
+		
+			selectTableRuleModel(container.tableNames.get(0)); //默认显示第一条数据
+		}
 	}
 	
 	/** 当MainView.fxml被载入时，自动调用*/
@@ -61,8 +68,15 @@ public class TableRuleController {
 	@FXML
 	private void genRules() {
 		try {
+			//生成规则对象
 			DataModelGenerator generator =  new DataModelGenerator();
 			generator.generateTableRuleModels();
+			
+			//加载规格对象
+			mainApp.getContainer().loadTableRules();
+			
+			showRule();
+			
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

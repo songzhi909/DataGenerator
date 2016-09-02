@@ -37,6 +37,7 @@ public class RootLayoutController {
 	
 	@FXML
 	private void handlerDataGenerator() {
+		if(mainApp.getContainer().files == null || mainApp.getContainer().files.length == 0) return;
 		//TODO:生成数据
 		try {
 			mainApp.getGenApp().loadTableRuleModels();

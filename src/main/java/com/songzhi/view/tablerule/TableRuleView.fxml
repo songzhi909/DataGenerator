@@ -35,7 +35,7 @@
                            <children>
                               <HBox alignment="CENTER" layoutX="92.0" layoutY="-36.0" prefHeight="57.0" prefWidth="555.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="生成模型" />
+                                    <Button mnemonicParsing="false" onAction="#genRules" text="生成模型" />
                                     <Button mnemonicParsing="false" onAction="#saveOrUpdate" text="保存" />
                                  </children>
                               </HBox>

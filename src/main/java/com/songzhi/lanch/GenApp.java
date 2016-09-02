@@ -38,7 +38,6 @@ import com.songzhi.view.diag.ProgressDialogController;
 public class GenApp implements Launcher {
 	private static Logger log = Logger.getLogger(GenApp.class);
 	
-	private static File[] files;	//存放数据模型文件路径
 
 //	/** 模型数据文件 */
 //	private Queue<String>	filenames;
@@ -94,9 +93,9 @@ public class GenApp implements Launcher {
 	 */
 	public void loadTableRuleModels() throws InterruptedException {
 		log.info("读取数据模型文件...");
-		final CountDownLatch latch = new CountDownLatch(files.length);	//多线程的协同
+		final CountDownLatch latch = new CountDownLatch(container.files.length);	//多线程的协同
 		
-		for(final File file : files) { 
+		for(final File file : container.files) { 
 			
 			new Thread(new Runnable(){
 				@Override
@@ -150,19 +149,7 @@ public class GenApp implements Launcher {
 		container = new Container();
 		
 		//加载数据模型
-		File file = new File("tempDir/xml");
-		files = file.listFiles(new FilenameFilter(){
-			@Override
-			public boolean accept(File dir, String name) {
-				boolean flag = name.endsWith(".xml");
-				if(flag) {	//将表名放入数组中
-					String tableName = name.substring(0, name.length()-4).replaceAll("[\\d|.]", "");
-					container.tableNames.add(tableName);
-					container.tableDescs.add(DBHelper.getTableDesc(tableName));
-				}
-				return flag;
-			}
-		});
+		container.loadTableRules();
 		
 	}
 	

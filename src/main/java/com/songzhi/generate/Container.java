@@ -1,5 +1,6 @@
 package com.songzhi.generate;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.songzhi.model.TableModel;
 import com.songzhi.model.TableNameAndDesc;
 import com.songzhi.model.TableRuleModel;
+import com.songzhi.utils.db.DBHelper;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -35,6 +37,8 @@ public class Container {
 	/** 存放业务执行sql  key:表名*/
 	public Map<String, List<String>> tableSqls = new LinkedHashMap<String, List<String>>();
 	
+	public File[] files;	//存放数据模型文件路径
+	
 	/** 获取业务生成规则集合 */
 	public ObservableList<TableRuleModel> getTableData() {
 		ObservableList<TableRuleModel> tableNameAndDescs = FXCollections.observableArrayList();
@@ -56,6 +60,21 @@ public class Container {
 		 tableNameAndDescs.add(bean);
 		}
 		return tableNameAndDescs;
+	}
+	
+	/** 加载业务模型规则文件  */
+	public void loadTableRules() {
+		File file = new File("tempDir/xml");
+		files = file.listFiles((dir, name)-> {
+				boolean flag = name.endsWith(".xml");
+				if(flag) {	//将表名放入数组中
+					String tableName = name.substring(0, name.length()-4).replaceAll("[\\d|.]", "");
+					tableNames.add(tableName);
+					tableDescs.add(DBHelper.getTableDesc(tableName));
+				}
+				return flag;
+			}
+		);
 	}
 	
 }
