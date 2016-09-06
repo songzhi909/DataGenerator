@@ -15,6 +15,7 @@ import java.util.zip.ZipFile;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.songzhi.generate.Container;
 import com.songzhi.utils.db.DBHelper;
 
 /***
@@ -46,7 +47,9 @@ public class DictionaryManager {
 
 	/** 加载字典 */
 	public static void loadDictionary(String dictName) throws Exception {
-		String path = DictionaryManager.class.getClassLoader().getResource("dict").getPath().replaceAll("%20"," ") + "/" + dictName;
+//		String path = DictionaryManager.class.getClassLoader().getResource("dict").getPath().replaceAll("%20"," ") + "/" + dictName;
+		
+		String path = Container.RESOURCES_FOLDER + "dict/" + dictName;
 		
 		InputStream is = null;
 		if(new File(path+".zip").exists() && new File(path+".zip").canRead()) {

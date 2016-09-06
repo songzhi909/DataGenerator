@@ -1,6 +1,7 @@
 package com.songzhi.factory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,6 +20,7 @@ import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
+import com.songzhi.generate.Container;
 import com.songzhi.model.ColumnModel;
 import com.songzhi.utils.OrderedProperties;
 import com.songzhi.utils.db.DBHelper;
@@ -46,18 +48,20 @@ public class DataModelGenerator {
 	
 	public  void  generateTableRuleModels() throws Exception {
 		log.info("开始加载业务字典...");
-		InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("gen.properties");
+//		InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("gen.properties");
+		String filePath = Container.RESOURCES_FOLDER + "gen.properties";
+		InputStream in = new FileInputStream(new File(filePath));
 		OrderedProperties props = new OrderedProperties();
 		props.load(new InputStreamReader(in, "utf-8"));
 		log.info("加载业务字典完成！");
 		
-		File tempDirFile = new File("tempDir/xml");
+		File tempDirFile = new File(Container.RESOURCES_FOLDER + "xml");
 		if(!tempDirFile.exists()) tempDirFile.mkdirs();
 
 		log.info("开始生成业务规则文件 ...");
 		for(Object key : props.keySet()) {
 			String tableName = props.getProperty(key.toString());
-			String filename = "tempDir/xml/" + key.toString()+"." + tableName + ".xml"; 
+			String filename = Container.RESOURCES_FOLDER + "xml/" + key.toString()+"." + tableName + ".xml"; 
 			genernateXml( tableName ,filename, String.valueOf(key.toString().charAt(0)));
 		}
 		log.info("生成业务规则文件完成！");
@@ -181,7 +185,10 @@ public class DataModelGenerator {
 	/** 指定生成规则    */
 	private  boolean columnSpecifyGenRule(Element generatorEle,ColumnModel model, String tableName) throws Exception{
 
-		InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("rule/specify.properties");
+//		InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("rule/specify.properties");
+		String filePath = Container.RESOURCES_FOLDER + "rule/specify.properties";
+		InputStream in = new FileInputStream(new File(filePath));
+		
 		OrderedProperties props = new OrderedProperties();
 		props.load(new InputStreamReader(in, "utf-8"));
 		
@@ -206,7 +213,11 @@ public class DataModelGenerator {
 	}
 	
 	private  boolean columnLikeGenRule(Element generatorEle,ColumnModel model, String tableName) throws Exception{
-		InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("rule/like.properties");
+
+//		InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("rule/like.properties");
+		String filePath = Container.RESOURCES_FOLDER + "rule/like.properties";
+		InputStream in = new FileInputStream(new File(filePath));
+		
 		OrderedProperties props = new OrderedProperties();
 		props.load(new InputStreamReader(in, "utf-8"));
 		
@@ -234,8 +245,11 @@ public class DataModelGenerator {
 	
 
 	private  boolean relationRule(Element generatorEle,ColumnModel model, String type) throws Exception {
-		
-		InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("rule/relation.properties");
+
+//	InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("rule/relation.properties");
+		String filePath = Container.RESOURCES_FOLDER + "rule/relation.properties";
+		InputStream in = new FileInputStream(new File(filePath));
+
 		OrderedProperties props = new OrderedProperties();
 		props.load(new InputStreamReader(in, "utf-8"));
 
@@ -272,7 +286,11 @@ public class DataModelGenerator {
 		String columnName = model.getColumnName();	//列名
 		String[]	rules = new String[]{"file_dict.properties", "db_dict.properties", "enum.properties"};
 		for(int i=0;i<rules.length;i++) {
-			InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("rule/" + rules[i]);
+		
+//			InputStream in = DataModelGenerator.class.getClassLoader().getResourceAsStream("rule/" + rules[i]);
+		String filePath = Container.RESOURCES_FOLDER + "rule/" + rules[i];
+		InputStream in = new FileInputStream(new File(filePath));
+		
 			OrderedProperties props = new OrderedProperties();
 			props.load(new InputStreamReader(in, "utf-8")); 
 			String generatorClass = i==0? "DictionaryFromFileGenerator" : (i==1? "DictionaryFromDBGenerator" : "DictionaryFromDataGenerator");

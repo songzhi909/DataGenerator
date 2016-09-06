@@ -12,6 +12,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.log4j.Logger;
 
+import com.songzhi.generate.Container;
 import com.songzhi.utils.db.DBHelper;
 
 /***
@@ -20,8 +21,6 @@ import com.songzhi.utils.db.DBHelper;
 public class DictFileGenerator {
 	private static Logger logger = Logger.getLogger(DictFileGenerator.class);
 
-	private static String DICT_FODER = "src/main/resources/dict/";
-	
 	public static void main(String[] args) throws Exception {
 		/*String sql = "select 'COMM.'||table_name from dba_all_tables t where t.owner = 'COMM'";
 		List<?> tableNames = DBHelper.query(sql);
@@ -57,7 +56,7 @@ public class DictFileGenerator {
 			
 			if(list == null || list.size() == 0) return;
 			
-			String filename = DICT_FODER + tablename + ".txt"; 
+			String filename = Container.RESOURCES_FOLDER + "dict/" + tablename + ".txt"; 
 			File file = new File(filename);
 			PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
 			
@@ -70,7 +69,7 @@ public class DictFileGenerator {
 			
 			
 			//压缩文件为zip格式
-			File zipFile = new File(DICT_FODER + tablename + ".zip");
+			File zipFile = new File(Container.RESOURCES_FOLDER + "dict/" + tablename + ".zip");
 			InputStream input = new FileInputStream(filename);
 			
 			ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(zipFile));

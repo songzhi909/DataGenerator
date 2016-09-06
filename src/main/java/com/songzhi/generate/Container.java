@@ -19,6 +19,9 @@ import javafx.collections.ObservableList;
 
 /** 容器 存储生成的数据 */
 public class Container {
+	
+//	public static final String RESOURCES_FOLDER = "resources/";	//程序路径
+	public static final String RESOURCES_FOLDER = "./";	//exe程序路径
 
 	/** 存放业务表名列表 */
 	public List<String> tableNames = new ArrayList<String>();
@@ -64,7 +67,7 @@ public class Container {
 	
 	/** 加载业务模型规则文件  */
 	public void loadTableRules() {
-		File file = new File("tempDir/xml");
+		File file = new File(RESOURCES_FOLDER + "xml");
 		files = file.listFiles((dir, name)-> {
 				boolean flag = name.endsWith(".xml");
 				if(flag) {	//将表名放入数组中

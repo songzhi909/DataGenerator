@@ -41,6 +41,8 @@ public class TableRuleController {
 
 	/**显示规格 */
 	private void showRule() {
+		log.debug("显示规格模型界面");
+		
 		Container container = mainApp.getContainer();
 		
 		if(container.tableNames != null && container.tableNames.size()>0) {
@@ -68,17 +70,19 @@ public class TableRuleController {
 	@FXML
 	private void genRules() {
 		try {
+			log.debug("准备生成模型规则...");
 			//生成规则对象
 			DataModelGenerator generator =  new DataModelGenerator();
 			generator.generateTableRuleModels();
-			
+
+			log.debug("模型规则生成结束");
 			//加载规格对象
 			mainApp.getContainer().loadTableRules();
-			
+
 			showRule();
 			
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(), e);
 		}
 	}
 	
@@ -93,13 +97,14 @@ public class TableRuleController {
 				
 				org.apache.commons.io.FileUtils.writeStringToFile(file, data, "utf-8");
 			} catch (IOException e) { 
-				e.printStackTrace();
+				log.error(e.getMessage());
 			}
 		}
 	}
 	
 	/** 显示业务表规则模型*/
 	private void selectTableRuleModel(String tableName) {
+		log.debug("select table: " + tableName);
 		if( tableName != null) {
 			try {
 				this.tableName = tableName;

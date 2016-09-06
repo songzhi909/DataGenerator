@@ -19,18 +19,22 @@ public class SerialGenerator extends DataGeneratorAdapter  {
 	/**PID前缀 日期的yyyyMMdd格式*/
 	private String prefix = new SimpleDateFormat("yyyyMMdd").format(new Date());	
 	
+	private static int i = 1;	//当没有序列的时候使用默认序号
+	
 	private int size = 8;	//序号长度 默认长度8
 
 	@Override
 	public String generator(TableModel tableModel) {
-		try {
 			String key = prefix;
-			String index = String.valueOf(DBHelper.get("select PID_SEQUENCE.nextval from dual "));
+			String index = null;
+			try {
+				index = String.valueOf(DBHelper.get("select PID_SEQUENCE.nextval from dual "));
+			} catch (SQLException e) {
+				log.error(e.getMessage());
+				index = String.valueOf(i++);
+			}
 			return key + StringUtils.leftPad(index, 8, '0');
-		} catch (SQLException e) {
-			log.equals("PID 生成失败" + e.getMessage());
-		}
-		return null;
+		 
 	}
 
 	public String getPrefix() {

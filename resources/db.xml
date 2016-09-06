@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databases>
+    <database>
+        <avaiableFlag></avaiableFlag>
+        <dbName>scehrp</dbName>
+        <dbPassword>manager</dbPassword>
+        <dbUrl>jdbc:oracle:thin:@localhost/orcl</dbUrl>
+        <dbUserName>system</dbUserName>
+        <defaultFlag>1</defaultFlag>
+    </database>
+</databases>

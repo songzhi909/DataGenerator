@@ -1,6 +1,7 @@
 package com.songzhi.view;
 
 import com.songzhi.lanch.MainApp;
+import com.songzhi.utils.db.DBHelper;
 
 import javafx.fxml.FXML;
 
@@ -17,7 +18,8 @@ public class RootLayoutController {
 	public void  handlerShowDatabase() {
 		mainApp.loadDatabaseFromFile();
 		mainApp.showDatabase();
-		mainApp.saveDatabaseToFile();
+		
+		DBHelper.saveDatabases(mainApp.getDatabaseData());
 	}
 	
 	@FXML

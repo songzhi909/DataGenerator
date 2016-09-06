@@ -18,6 +18,7 @@ import java.util.zip.ZipFile;
 
 import org.apache.log4j.Logger;
 
+import com.songzhi.generate.Container;
 import com.songzhi.lanch.MainApp;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -47,16 +48,12 @@ public class DictFileController {
     final TreeItem<String[]> root = new TreeItem<String[]>(new String[]{"root", ""});
     root.setExpanded(true); 
     
-    try {
-			File file = new File( URLDecoder.decode(DictFileController.class.getResource("/dict").getPath(),"utf-8"));
-			List<File> files = Arrays.asList(file.listFiles());
-			files.stream().forEach(f -> {
-				 String[] strs = new String[]{f.getName().split("\\.")[0], f.getAbsolutePath()};
-				 root.getChildren().add(new TreeItem<String[]>(strs));
-			});
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+    File file = new File(Container.RESOURCES_FOLDER + "dict","utf-8");
+		List<File> files = Arrays.asList(file.listFiles());
+		files.stream().forEach(f -> {
+			 String[] strs = new String[]{f.getName().split("\\.")[0], f.getAbsolutePath()};
+			 root.getChildren().add(new TreeItem<String[]>(strs));
+		});
 		
 		dictsTable.setRoot(root);
 	}
