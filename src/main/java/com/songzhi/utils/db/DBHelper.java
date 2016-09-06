@@ -1,9 +1,17 @@
 package com.songzhi.utils.db;
 
+import java.beans.PropertyVetoException;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
@@ -13,14 +21,24 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.songzhi.model.DatabaseListWrapper;
+import com.songzhi.model.DatabaseModel;
 
+/**
+ * 数据库工具类
+ * @author songzhi
+ *
+ */
 public class DBHelper {
 	private static final Logger log = Logger.getLogger(DBHelper.class);
+	
+	private static final String DATABSE_FILE = "db.xml"; 
 
 	public static ComboPooledDataSource dataSource;
 	
 	static {
 		try {
+			setDatabase(defaultDatabase());
 			dataSource = new ComboPooledDataSource("cehrp");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -245,6 +263,71 @@ public class DBHelper {
 		StringBuilder sb = new StringBuilder("insert into " + tableName + "("+ colStr  +") values(" + valueStr + ")");
 		System.out.println(sb.toString());
 		DBHelper.batch(sb.toString(), params);
+	}
+	
+	/** 读取数据库连接信息列表 */
+	public static List<DatabaseModel> fetchDatabases() {
+		// reading xml from the file and unmarshalling.
+		List<DatabaseModel> databases = null;;
+		try {
+			JAXBContext context = JAXBContext.newInstance(DatabaseListWrapper.class);
+			Unmarshaller um = context.createUnmarshaller();
+			DatabaseListWrapper wrapper = (DatabaseListWrapper) um.unmarshal(new File(DATABSE_FILE));
+			databases = wrapper.getDatabasess();
+		} catch (JAXBException e) {
+			log.error(e.getMessage());
+		}
+		return databases;
+	}
+	
+	/** 默认数据库地址 */
+	public static DatabaseModel defaultDatabase() {
+		DatabaseModel defaultDatabase = new DatabaseModel();
+		
+		for(DatabaseModel databaseModel : fetchDatabases()) {
+			if("1".equals(databaseModel.getDefaultFlag()))  {
+				defaultDatabase = databaseModel;
+				break;
+			}
+		}
+		
+		return defaultDatabase;
+	}
+	
+	/** 设置默认数据库连接 */
+	public static void setDatabase(DatabaseModel databaseModel) {
+		try {
+			dataSource = new ComboPooledDataSource();
+			dataSource.setDriverClass("oracle.jdbc.driver.OracleDriver");
+			dataSource.setJdbcUrl(databaseModel.getDbUrl());
+			dataSource.setUser(databaseModel.getDbUserName());
+			dataSource.setPassword(databaseModel.getDbPassword());
+			dataSource.setInitialPoolSize(50);
+			dataSource.setMaxPoolSize(100);
+			dataSource.setMaxIdleTime(10000);
+		} catch (PropertyVetoException e) {
+			log.error(e.getMessage());
+		}
+	}
+	
+	/** 保存数据库连接信息 */
+	public static void saveDatabases(List<DatabaseModel> databases) {
+		try {
+			JAXBContext context = JAXBContext.newInstance(DatabaseListWrapper.class);
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			
+			// wrapping our person data
+			DatabaseListWrapper wrapper = new DatabaseListWrapper();
+			wrapper.setDatabases(databases);;
+			
+			// Marshalling and saving xml to the file
+			m.marshal(wrapper, new File(DATABSE_FILE));
+		} catch (PropertyException e) {
+			log.error(e.getMessage());
+		} catch (JAXBException e) {
+			log.error(e.getMessage());
+		}
 	}
 	
 }

@@ -1,17 +1,13 @@
 package com.songzhi.lanch;
 
-import java.io.File;
 import java.io.IOException;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.songzhi.generate.Container;
-import com.songzhi.model.DatabaseListWrapper;
 import com.songzhi.model.DatabaseModel;
+import com.songzhi.utils.db.DBHelper;
 import com.songzhi.view.MainViewController;
 import com.songzhi.view.RootLayoutController;
 import com.songzhi.view.db.DatabaseController;
@@ -42,7 +38,6 @@ public class MainApp extends Application {
 		return container;
 	}
 
-	private final File file = new File("db.xml");
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -154,46 +149,14 @@ public class MainApp extends Application {
 	 * 从xml文件中读取数据库连接信息
 	 */
 	public void loadDatabaseFromFile() {
-		try {
-			log.info("读取数据库连接信息...");
-			
-			JAXBContext context = JAXBContext.newInstance(DatabaseListWrapper.class);
-			Unmarshaller um = context.createUnmarshaller();
-			
-			// reading xml from the file and unmarshalling.
-			DatabaseListWrapper wrapper = (DatabaseListWrapper) um.unmarshal(file);
-			
-			databaseData.clear();
-			databaseData.addAll(wrapper.getDatabasess());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e.getMessage());
-		}
+		log.info("读取数据库连接信息...");
+		
+		List<DatabaseModel> databases = DBHelper.fetchDatabases();
+		
+		databaseData.clear();
+		databaseData.addAll(databases);
 	}
-	
-	/**
-	 * 保存数据连接信息到xml 
-	 * @param file
-	 */
-	public void saveDatabaseToFile() {
-		try {
-			log.info("保存数据库连接信息...");
-			
-			JAXBContext context = JAXBContext.newInstance(DatabaseListWrapper.class);
-			Marshaller m = context.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			
-			// wrapping our person data
-			DatabaseListWrapper wrapper = new DatabaseListWrapper();
-			wrapper.setDatabases(databaseData);;
-			
-			// Marshalling and saving xml to the file
-			m.marshal(wrapper, file);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-	}
+	 
 	
 	public void showDatabase() {
 		try {
@@ -208,7 +171,7 @@ public class MainApp extends Application {
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			dialogStage.setOnCloseRequest(value -> saveDatabaseToFile());	//监听关闭
+			dialogStage.setOnCloseRequest(value -> DBHelper.saveDatabases(databaseData));	//监听关闭
 			
 			//set the person into the controller
 			DatabaseController controller = loader.getController();
