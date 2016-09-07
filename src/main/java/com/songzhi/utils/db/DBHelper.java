@@ -320,8 +320,8 @@ public class DBHelper {
 			// Marshalling and saving xml to the file
 			m.marshal(wrapper, new File(DATABSE_FILE));
 			
-			
 			defaultDatabase();	//重置数据库
+
 		} catch (PropertyException e) {
 			log.error(e.getMessage());
 		} catch (JAXBException e) {

@@ -20,8 +20,8 @@ import javafx.collections.ObservableList;
 /** 容器 存储生成的数据 */
 public class Container {
 	
-//	public static final String RESOURCES_FOLDER = "resources/";	//程序路径
-	public static final String RESOURCES_FOLDER = "./";	//exe程序路径
+	public static final String RESOURCES_FOLDER = "resources/";	//程序路径
+//	public static final String RESOURCES_FOLDER = "./";	//exe程序路径
 
 	/** 存放业务表名列表 */
 	public List<String> tableNames = new ArrayList<String>();

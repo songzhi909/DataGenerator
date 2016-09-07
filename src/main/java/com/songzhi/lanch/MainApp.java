@@ -153,9 +153,10 @@ public class MainApp extends Application {
 		
 		List<DatabaseModel> databases = DBHelper.fetchDatabases();
 		
-		databaseData.clear();
+		databaseData.clear(); 
 		
 		if(databases != null && databases.size() > 0) databaseData.addAll(databases);
+
 	}
 	 
 	
