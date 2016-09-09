@@ -45,6 +45,8 @@ public class TableRuleController {
 		
 		Container container = mainApp.getContainer();
 		
+		if(tableData.getItems() != null) tableData.getItems().clear();
+		
 		if(container.tableNames != null && container.tableNames.size()>0) {
 		
 			tableData.setItems(container.getTableNameAndDescs());
@@ -56,13 +58,17 @@ public class TableRuleController {
 	/** 当MainView.fxml被载入时，自动调用*/
 	@FXML
 	private void initialize() {
-		//动态绑定表信息
-		tableNameColumn.setCellValueFactory(cellData -> cellData.getValue().tableNameProperty());
-		tableDescColumn.setCellValueFactory(cellData -> cellData.getValue().tableDescProperty());
-
-		//监听表选中事件
-		tableData.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> selectTableRuleModel(newValue.getTableName()));
+		try {
+			//动态绑定表信息
+			tableNameColumn.setCellValueFactory(cellData -> cellData.getValue().tableNameProperty());
+			tableDescColumn.setCellValueFactory(cellData -> cellData.getValue().tableDescProperty());
+			
+			//监听表选中事件
+			tableData.getSelectionModel().selectedItemProperty().addListener(
+					(observable, oldValue, newValue) -> selectTableRuleModel(newValue.getTableName()));
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 		
 	}
 	

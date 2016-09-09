@@ -68,10 +68,14 @@ public class Container {
 	/** 加载业务模型规则文件  */
 	public void loadTableRules() {
 		File file = new File(RESOURCES_FOLDER + "xml");
+		
+		tableNames.clear();
+		tableDescs.clear();
+		
 		files = file.listFiles((dir, name)-> {
 				boolean flag = name.endsWith(".xml");
 				if(flag) {	//将表名放入数组中
-					String tableName = name.substring(0, name.length()-4).replaceAll("[\\d|.]", "");
+					String tableName = name.substring(0, name.length()-4).replaceAll("(\\d*\\.)", "");
 					tableNames.add(tableName);
 					tableDescs.add(DBHelper.getTableDesc(tableName));
 				}
