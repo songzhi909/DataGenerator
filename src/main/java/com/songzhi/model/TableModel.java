@@ -20,6 +20,8 @@ public class TableModel {
 	private List<String> columnNames = new ArrayList<String>();
 	/** 列模型数据 集合 key:列名 */
 	private Map<String, ColumnModel> columnModels = new LinkedHashMap<>();
+	/** 用户名 */
+	private String user;
 	
 	public ObservableList<ColumnModel> getColumnData() {
 		ObservableList<ColumnModel> colData = FXCollections.observableArrayList();
@@ -40,10 +42,11 @@ public class TableModel {
 		this.columnNames = columnNames;
 	}
 
-	public TableModel(String tableName, String tableDesc, List<String> columnNames,
+	public TableModel(String tableName, String tableDesc,String user, List<String> columnNames,
 			Map<String, ColumnModel> columnModels) {
 		super();
 		this.tableName = tableName;
+		this.user = user;
 		this.tableDesc = tableDesc;
 		this.columnNames = columnNames;
 		this.columnModels = columnModels;
@@ -83,6 +86,14 @@ public class TableModel {
 
 	public void setColumnModels(Map<String, ColumnModel> columnModels) {
 		this.columnModels = columnModels;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 	
 }

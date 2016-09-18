@@ -166,6 +166,7 @@ public class GenApp implements Launcher {
 		
 		tableRuleModel.setTableName(tableName);
 		tableRuleModel.setTableDesc(tableDesc);
+		tableRuleModel.setUser(DBHelper.getOwner(tableName));
 		tableRuleModel.setRows(StringUtils.isNotBlank(rows) ? Integer.parseInt(rows) : 1);	//默认1条
 		
 		// TODO：读取每个列名的注解, 可考虑其他方式
@@ -221,6 +222,7 @@ public class GenApp implements Launcher {
 		
 		String tableName = tableRuleModel.getTableName();
 		String tableDesc = tableRuleModel.getTableDesc();
+		String user			 = tableRuleModel.getUser();
 		List<String> columnNames = tableRuleModel.getColumnNames();
 		List<String> columnDescs = tableRuleModel.getColumnDescs();
 		Map<String, DataGenerator<?>> generators = tableRuleModel.getGenerators();
@@ -228,7 +230,7 @@ public class GenApp implements Launcher {
 		for(int i=0; i<num; i++) {
 			Map<String, ColumnModel> columnModels = new LinkedHashMap<>();
 			
-			TableModel tableModel = new TableModel(tableName, tableDesc, columnNames, columnModels);
+			TableModel tableModel = new TableModel(tableName, tableDesc, user, columnNames, columnModels);
 			
 			int columnIndex = 0;	//列索引
 			for(Iterator<?> it = generators.entrySet().iterator(); it.hasNext(); columnIndex++) {
@@ -275,7 +277,7 @@ public class GenApp implements Launcher {
 					
 					Map<String, ColumnModel> columnModels = tableModel.getColumnModels();
 					
-					StringBuffer sb = new StringBuffer(" insert into interface.").append(tableModel.getTableName()).append("(");
+					StringBuffer sb = new StringBuffer(" insert into ").append(tableModel.getUser()).append(".").append(tableModel.getTableName()).append("(");
 					
 					boolean flag = true;	//判断是否第一个
 					for(Iterator<Entry<String, ColumnModel>> it = columnModels.entrySet().iterator();it.hasNext();) {

@@ -29,6 +29,8 @@ public class TableRuleModel {
 	private Map<String, DataGenerator<?>> generators = new LinkedHashMap<String, DataGenerator<?>>();
 	/** 业务数据最大生成条数 */
 	private int rows;
+	/** 用户名 */
+	private String user;
 
 	public StringProperty tableNameProperty() {
 		return tableName;
@@ -84,5 +86,13 @@ public class TableRuleModel {
 
 	public void setRows(int rows) {
 		this.rows = rows;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 }
