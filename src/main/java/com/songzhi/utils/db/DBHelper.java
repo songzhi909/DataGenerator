@@ -156,6 +156,21 @@ public class DBHelper {
 		}
 		return tableDesc;
 	}
+	
+	/** 根据表明读取表描述*/
+	public static String getOwner(String tableName) {
+		String value = tableName;
+		try {
+			String sql = "select T.OWNER from DBA_TAB_COMMENTS t where t.table_name =?";
+			Object obj = get(sql, tableName);
+			if(StringUtils.isNotBlank(String.valueOf(obj))) {
+				value = String.valueOf(obj);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
 
 	/**
 	 * 执行更新的sql语句,插入,修改,删除
